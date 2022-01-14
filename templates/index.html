@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart Pole</title>
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- drag drop -->
+    <link rel="stylesheet" href="./static/assets/jquery_ui/jquery-ui.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- New style -->
+    <link rel="stylesheet" href="./static/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+    <!-- <script src="./assets/js/juery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+
+    <!-- <script src="./assets/bootstrap_431/dist/js/bootstrap.min.js"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+
+</head>
+
+<body>
+
+    <div class="container-fluid p-0">
+        <div class="row" style="margin:0 auto;">
+            <div class="col-lg-3 p-0">
+                <div id="tInsert" class="company-logo p-3  bg-color-darkBlue text-white d-flex justify-content-center" >
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-xl-6 text-center">
+                            <h1 style="font-size: 50px;">t<span class="font-color-sky">o</span>uch</h1> 
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-xl-6  font-12 pt-3  font-color-sky  text-center">
+                            <p class="m-0">SmartPole Dashboard</p>
+                            <p class="m-0">Monitoring System</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 text-darkBlue bg-color-lightGreen">
+                    <div class="box-scroll">
+                        <div id="historian_log">     
+                            <div class='row font-12 py-3' style='margin:0 auto;'>
+                                <div class='col-lg-6' >
+                                <p class='m-0'>{{date}}</p>
+                                </div>
+                                <div class='col-lg-6 text-right font-weight600'>
+                                <p class='m-0'>การแจ้งเตือนล่าสุด <span class='bg-color-darkBlue circle text-white'>{{countmesege}}</span></p>
+                                </div>
+                            </div>
+                            {% for row in datas %} 
+                            <div class='row p-1 m-2 bg-white rounded-12 font-14 text-center' style='margin: 0 auto;'>    
+                                <div class='col-sm-2 p-2 '>{{row.2}}</div>
+                                <div class='col-sm-7 font-weight600 p-2 text-left'>สถานที่  <span>{{row.3}}</span></div>
+                                <div class='col-sm-3 p-1'><p class='bg-color-orange p-1 m-0 rounded-8 text-white' >SOS</p></div>
+                            </div>
+                            {% endfor %}   
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-9 p-0">
+                <div class="row" style="margin:0 auto;">
+                    <div class="col-lg-12 p-0">
+                        <!-- google map api -->
+                        <div id="goole_map" class="rounded"></div>
+                    </div>
+                    <div class="col-lg-12 p-0 bg-color-lightBlue text-darkBlue">
+                        <div class="row pt-4 px-4" style="margin:0 auto;">
+                            <div class="col-md-4 pt-3 px-5 font-weight600 font-18">
+                                <p class="m-0">สถานที่</p>
+                                <p>depa Thailand</p>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-secondary font-14 m-0">อุณหภูมิ</p>
+                                <span id="temperature" class="text-darkBlue font-34 font-weight600">0</span> <span class="text-secondary font-18 font-weight600"> &deg;C</span>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-secondary font-14 m-0">ความชื้น</p>
+                                <span id="humidity" class="text-darkBlue font-34 font-weight600">0</span><span class="text-secondary font-18 font-weight600"> %</span>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-secondary font-14 m-0">PM 2.5</p>
+                                <span id="PM25" class="text-darkBlue font-34 font-weight600">0</span><span class="text-secondary font-18 font-weight600"> µg./m3</span>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-secondary font-14 m-0">PM 10</p>
+                                <span id="PM10" class="text-darkBlue font-34 font-weight600">0</span><span class="text-secondary font-18 font-weight600"> µg./m3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- <div id="noodang" class="noodang-modal">
+        <p id="hide_noodang" onclick="au()" class="btn-close p-0 text-center"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></p>
+        <div id="noodang_gif" class="">
+            <button id="nLeft" class="noodang-position"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+            <button id="nRight" class="noodang-position"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            <button id="nUp" class="noodang-position"><i class="fa fa-angle-up" aria-hidden="true"></i></button>
+            <button id="nDown" class="noodang-position"><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+        </div>
+    </div> -->
+    
+    <div id="control_ui">
+        <div id="fullscreen_page" class="panel-screen">
+            <i class="fa fa-desktop" aria-hidden="true"></i>
+        </div>
+        <div id="refresh_page" class="panel-screen">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script async deferF
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5MEIYW-bmTeTWMUCmfsEKynZze8RKGNQ&callback=initMap">
+    </script>
+
+    <!-- google map api  -->
+    <script>
+        var temperature = document.getElementById('temperature'); 
+        var humidity = document.getElementById('humidity'); 
+        var PM25 = document.getElementById('PM25'); 
+        var PM10 = document.getElementById('PM10'); 
+        var map;
+        var markers = [];
+        var zoom_default = 11.2;
+        var features = [];
+        const socket = io();
+        socket.on('connect', function () {
+            console.log('connectecd');
+        });
+        socket.on('datas-sensor', function (data) {
+            // console.log(data.temperature);
+            temperature.innerHTML = data.temperature;humidity
+            humidity.innerHTML = data.humidity;
+            PM25.innerHTML = data.pm25;
+            PM10.innerHTML = data.pm10;
+
+        });
+
+        function initMap() {
+
+            map = new google.maps.Map(document.getElementById('goole_map'), {
+                center: new google.maps.LatLng(13.794797, 100.568196),
+                zoom: zoom_default,
+                disableDefaultUI: true,
+                zoomControl: true,
+                gestureHandling: 'greedy',
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BUTTOM
+                },
+            });
+
+            //icon
+            var icons = {
+                point: {
+                    icon: './static/assets/imgs/mark2-2.png'
+                },
+            };
+            //potition
+            features = [
+                {
+                    position: new google.maps.LatLng(13.812104118223067, 100.56201499163205),
+                    pullId: '126',
+                    canalId: "ID002",
+                    type: 'point',
+                    name: 'depa Thailand',
+                }
+            ];
+
+            //INFO
+            var infowindow = new google.maps.InfoWindow({
+                content: ""
+            });
+
+            // Create markers.
+
+            features.forEach(function (feature) {
+                var marker = new google.maps.Marker({
+                    position: feature.position,
+                    content: feature.name,
+                    icon: icons[feature.type].icon,
+                    map: map,
+                    CID: feature.pullId,
+                });
+                marker.addListener('click', function () {
+                    infowindow.setContent("<div id='show_box'>" +
+                        "<h4 class='font-Kanit text-center'><b>" + marker.content +
+                        "</b></h4>" +
+                        "</br> <img style='-webkit-user-select: none;' src='{{ url_for('video_feed') }}' width='610' height='340' frameborder='0'>" +
+                        "</div>"
+                    );
+                    infowindow.open(map, marker);
+                    map.setZoom(18);
+                    map.setCenter(marker.getPosition());
+                });
+                socket.on('datas-event', function (data) {
+
+                    if (data == "alarm_sos1" ){
+                        console.log("ok");
+                        marker.setIcon('./static/assets/imgs/mark3-2.png');
+                        marker.setAnimation(google.maps.Animation.BOUNCE);
+                        map.setZoom(17);
+                        map.setCenter(marker.getPosition());
+                    }
+                    if (data == "end_call1"){
+                        location.reload();
+                    }
+                    if (data == "Terminatedipphone"){
+                        location.reload();
+                    }
+                    if (data == "Incoming1"){
+                        infowindow.setContent("<div id='show_box'>" +
+                        "<h4 class='font-Kanit text-center'><b>" + marker.content +
+                        "</b></h4>" +
+                        "</br> <img style='-webkit-user-select: none;' src='{{ url_for('video_feed') }}' width='610' height='340' frameborder='0'>" +
+                        "</div>"
+                    );
+                    infowindow.open(map, marker);     
+                    map.setZoom(20);
+                    map.setCenter(marker.getPosition());
+                    }
+                    // location.reload();
+                })
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    marker.setIcon('./static/assets/imgs/mark3-2.png');
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                });
+                google.maps.event.addListener(marker, 'mouseout', function () {
+                    marker.setIcon('./static/assets/imgs/mark2-2.png');
+                    marker.setAnimation(null);
+                    
+                });
+                markers.push(marker);
+            });
+            // this event listener calls closeclick
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                // console.log("reload")
+                location.reload();
+            });
+        }
+
+        function getFeature() {
+            return JSON.stringify(features);
+        }
+
+        function showinfo(id) {
+            google.maps.event.trigger(markers[id], 'click');
+        }
+
+        $("#refresh_page").click(function () {
+            location.reload(true);
+        });
+        $("#fullscreen_page").click(function () {
+            toggleFullScreen()
+        });
+
+        // setTimeout(() => { $('#fullscreen_page').simulate('click');}, 5000);
+    
+        function toggleFullScreen() {
+            if ((document.fullScreenElement && document.fullScreenElement !== null) || // alternative standard method
+                (!document.mozFullScreen && !document.webkitIsFullScreen)) { // current working methods
+                if (document.documentElement.requestFullScreen) {
+                    document.documentElement.requestFullScreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullScreen) {
+                    document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+            }
+        }
+
+       
+        
+    </script>
+    
