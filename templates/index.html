@@ -6,29 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Smart Pole</title>
-   
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <!-- drag drop -->
-    <link rel="stylesheet" href="./static/assets/jquery_ui/jquery-ui.css">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- New style -->
     <link rel="stylesheet" href="./static/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-
-    <!-- <script src="./assets/js/juery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-
-    <!-- <script src="./assets/bootstrap_431/dist/js/bootstrap.min.js"></script> -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
-
 
 </head>
 
@@ -52,7 +32,7 @@
                     <div class="box-scroll">
                         <div id="historian_log">     
                             <div class='row font-12 py-3' style='margin:0 auto;'>
-                                <div class='col-lg-6' >
+                                <div class='col-lg-6'>
                                 <p class='m-0'>{{date}}</p>
                                 </div>
                                 <div class='col-lg-6 text-right font-weight600'>
@@ -105,16 +85,24 @@
         </div>
 
     </div>
-    <!-- <div id="noodang" class="noodang-modal">
-        <p id="hide_noodang" onclick="au()" class="btn-close p-0 text-center"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></p>
-        <div id="noodang_gif" class="">
-            <button id="nLeft" class="noodang-position"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
-            <button id="nRight" class="noodang-position"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
-            <button id="nUp" class="noodang-position"><i class="fa fa-angle-up" aria-hidden="true"></i></button>
-            <button id="nDown" class="noodang-position"><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+    <div id="alert_detail" class="alert-detail rounded font-12 p-1 ui-draggable ui-draggable-handle">
+        <div class="row p-1" style="margin: 0 auto;">
+            <div class="col-3 text-center p-0">
+                <span id="test_sound" class="circle-10 bg-color-darkBlue"></span>
+            </div>
+            <div class="col-9">
+                <p class="m-0">ปกติ</p>
+            </div>
         </div>
-    </div> -->
-    
+        <div class="row p-1" style="margin: 0 auto;">
+            <div class="col-3 text-center p-0">
+                <span class="circle-10 bg-color-orange"></span>
+            </div>
+            <div class="col-9">
+                <p class="m-0">แจ้งเตือน SOS</p>
+            </div>
+        </div>
+    </div>
     <div id="control_ui">
         <div id="fullscreen_page" class="panel-screen">
             <i class="fa fa-desktop" aria-hidden="true"></i>
@@ -123,10 +111,10 @@
             <i class="fa fa-refresh" aria-hidden="true"></i>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
-    <script async deferF
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5MEIYW-bmTeTWMUCmfsEKynZze8RKGNQ&callback=initMap">
-    </script>
+    <script async deferF src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5MEIYW-bmTeTWMUCmfsEKynZze8RKGNQ&callback=initMap"></script>
 
     <!-- google map api  -->
     <script>
@@ -139,20 +127,20 @@
         var zoom_default = 11.2;
         var features = [];
         const socket = io();
+        let statecall = false
         socket.on('connect', function () {
             console.log('connectecd');
         });
         socket.on('datas-sensor', function (data) {
             // console.log(data.temperature);
+	        //console.log("ok");
             temperature.innerHTML = data.temperature;humidity
             humidity.innerHTML = data.humidity;
             PM25.innerHTML = data.pm25;
             PM10.innerHTML = data.pm10;
-
         });
 
         function initMap() {
-
             map = new google.maps.Map(document.getElementById('goole_map'), {
                 center: new google.maps.LatLng(13.794797, 100.568196),
                 zoom: zoom_default,
@@ -187,7 +175,6 @@
             });
 
             // Create markers.
-
             features.forEach(function (feature) {
                 var marker = new google.maps.Marker({
                     position: feature.position,
@@ -197,19 +184,26 @@
                     CID: feature.pullId,
                 });
                 marker.addListener('click', function () {
-                    infowindow.setContent("<div id='show_box'>" +
-                        "<h4 class='font-Kanit text-center'><b>" + marker.content +
-                        "</b></h4>" +
-                        "</br> <img style='-webkit-user-select: none;' src='{{ url_for('video_feed') }}' width='610' height='340' frameborder='0'>" +
-                        "</div>"
-                    );
-                    infowindow.open(map, marker);
-                    map.setZoom(18);
-                    map.setCenter(marker.getPosition());
+                    
+                    // if (statecall==true){
+                    // }else{
+                    //     infowindow.setContent("<div id='show_box'>" +
+                    //     "<h4 class='font-Kanit text-center'><b>" + marker.content +
+                    //     "</b></h4>" +
+                    //     "</br> <img style='-webkit-user-select: none;' src='{{ url_for('video_feed') }}' width='610' height='340' frameborder='0'>" +
+                    //     "</div>"
+                        
+                    // );
+                    // infowindow.open(map, marker);
+                    // map.setZoom(18);
+                    // map.setCenter(marker.getPosition());
+                    // statecall = false
+                    // }
+                    
                 });
                 socket.on('datas-event', function (data) {
-
                     if (data == "alarm_sos1" ){
+                        statecall = true
                         console.log("ok");
                         marker.setIcon('./static/assets/imgs/mark3-2.png');
                         marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -217,14 +211,26 @@
                         map.setCenter(marker.getPosition());
                     }
                     if (data == "end_call1"){
-                        location.reload();
+                        // map.setZoom(11.2);
+                        // marker.setIcon('./static/assets/imgs/mark2-2.png'); //อย่าลืมเอากลับ
+                        // marker.setAnimation(null); //อย่าลืมเอากลับ
+                        // infowindow.close();
+                        statecall = false
+                        location.reload(); //อย่าลืมเอากลับ
                     }
                     if (data == "Terminatedipphone"){
                         location.reload();
                     }
+                    if (data == "Busy"){
+                        statecall = false
+                        marker.setIcon('./static/assets/imgs/mark2-2.png');
+                        marker.setAnimation(null);
+                        console.log(data)
+                    }
                     if (data == "Incoming1"){
-                        infowindow.setContent("<div id='show_box'>" +
-                        "<h4 class='font-Kanit text-center'><b>" + marker.content +
+                        statecall = false;
+                        infowindow.setContent("<div id='show_box' >" +
+                        "<h4 class='font-Kanit text-center'  ><b>" + marker.content +
                         "</b></h4>" +
                         "</br> <img style='-webkit-user-select: none;' src='{{ url_for('video_feed') }}' width='610' height='340' frameborder='0'>" +
                         "</div>"
@@ -240,16 +246,21 @@
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                 });
                 google.maps.event.addListener(marker, 'mouseout', function () {
+                    if (statecall!=true){
+                        marker.setIcon('./static/assets/imgs/mark2-2.png');
+                        marker.setAnimation(null);
+                    }
+                });
+                
+                google.maps.event.addListener(infowindow, 'closeclick', function () {
+                    map.setZoom(11.2);
+                    map.setCenter(marker.getPosition());
                     marker.setIcon('./static/assets/imgs/mark2-2.png');
                     marker.setAnimation(null);
-                    
+                
                 });
+
                 markers.push(marker);
-            });
-            // this event listener calls closeclick
-            google.maps.event.addListener(infowindow, 'closeclick', function () {
-                // console.log("reload")
-                location.reload();
             });
         }
 
@@ -268,8 +279,6 @@
             toggleFullScreen()
         });
 
-        // setTimeout(() => { $('#fullscreen_page').simulate('click');}, 5000);
-    
         function toggleFullScreen() {
             if ((document.fullScreenElement && document.fullScreenElement !== null) || // alternative standard method
                 (!document.mozFullScreen && !document.webkitIsFullScreen)) { // current working methods
@@ -290,8 +299,5 @@
                 }
             }
         }
-
-       
-        
     </script>
     

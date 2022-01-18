@@ -1,4 +1,4 @@
-DBHOST = "127.0.0.1"
+DBHOST = "161.82.233.183"
 DBUSER = "root"
 DBPORT =  3306
 DBPASS = "8ezjkoMYsql"
